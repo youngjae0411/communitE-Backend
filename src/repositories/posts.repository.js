@@ -29,11 +29,12 @@ class PostsRepository {
     };
 
     createPost = async (data) => {
+        console.log(data);
         await Posts.create({
             userId: data.userId,
             title: data.title,
             content: data.content,
-            image: null,
+            postImg: data.image,
         });
     };
 
