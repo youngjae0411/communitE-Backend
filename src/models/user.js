@@ -27,6 +27,11 @@ module.exports = (sequelize, DataTypes) => {
                 primaryKey: true,
                 type: DataTypes.INTEGER,
             },
+            loginId: {
+                type: DataTypes.STRING,
+                unique: true,
+                allowNull: false,
+            },
             token: {
                 type: DataTypes.STRING,
                 unique: true,
