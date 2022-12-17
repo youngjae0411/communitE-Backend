@@ -21,6 +21,22 @@ class PostsService {
             };
         });
     };
+
+    findOnePost = async (postId) => {
+        const post = await this.postsRepository.findOnePost(postId);
+
+        return {
+            postId: post.postId,
+            userId: post.userId,
+            title: post.title,
+            image: post.postImg,
+            content: post.content,
+            nickname: post.User.nickname,
+            createdAt: post.createdAt,
+            updatedAt: post.updatedAt,
+        };
+    };
+
     createPost = async (title, content, userId) => {
         return await this.postsRepository.createPost({
             title,
