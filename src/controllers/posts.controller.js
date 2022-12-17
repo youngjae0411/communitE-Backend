@@ -49,6 +49,23 @@ class PostsController {
             });
         }
     };
+
+    updatePost = async (req, res) => {
+        try {
+            const { postId } = req.params;
+            const { title, content } = req.body;
+            await this.postsService.updatePost(postId, title, content);
+            return res
+                .status(201)
+                .json({ success: true, message: '수정 성공' });
+        } catch (error) {
+            console.log(error);
+            res.status(400).json({
+                success: false,
+                errorMessage: '수정 실패',
+            });
+        }
+    };
 }
 
 module.exports = PostsController;

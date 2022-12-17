@@ -44,6 +44,13 @@ class PostsService {
             userId,
         });
     };
+
+    updatePost = async (postId, title, content) => {
+        const post = await this.postsRepository.findOnePost(postId);
+        if (!post) throw new Error('게시글이 존재하지않습니다.');
+
+        await this.postsRepository.updatePost(postId, title, content);
+    };
 }
 
 module.exports = PostsService;

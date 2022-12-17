@@ -10,4 +10,5 @@ router.get('/:postId', postsController.findOnePost);
 
 router.post('/', postsController.createPost);
 
+router.put('/:postId', postsController.updatePost);
 module.exports = router;
