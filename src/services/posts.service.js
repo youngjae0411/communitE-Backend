@@ -14,7 +14,7 @@ class PostsService {
                 postId: allPosts.postId,
                 userId: allPosts.userId,
                 title: allPosts.title,
-                image: null,
+                image: allPosts.postImg,
                 nickname: allPosts.User.nickname,
                 createdAt: allPosts.createdAt,
                 updatedAt: allPosts.updatedAt,
@@ -37,11 +37,18 @@ class PostsService {
         };
     };
 
-    createPost = async (title, content, userId) => {
+    createPost = async (title, content, userId, image) => {
+        if (image === undefined) {
+            image =
+                'https://t3.ftcdn.net/jpg/03/34/83/22/360_F_334832255_IMxvzYRygjd20VlSaIAFZrQWjozQH6BQ.jpg';
+        } else {
+        }
+        console.log(image);
         return await this.postsRepository.createPost({
             title,
             content,
             userId,
+            image,
         });
     };
 

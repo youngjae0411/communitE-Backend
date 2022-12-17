@@ -32,7 +32,7 @@ module.exports = {
                 defaultValue: Sequelize.DataTypes.NOW,
             },
             postImg: {
-                type: Sequelize.BLOB,
+                type: Sequelize.STRING,
                 allowNull: true,
             },
             updatedAt: {
