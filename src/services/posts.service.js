@@ -9,15 +9,14 @@ class PostsService {
         const posts = await this.postsRepository.findAllPosts();
 
         return posts.map((allPosts) => {
-            console.log(allPosts);
             return {
                 postId: allPosts.postId,
                 userId: allPosts.userId,
                 title: allPosts.title,
                 image: allPosts.postImg,
                 nickname: allPosts.User.nickname,
-                createdAt: allPosts.createdAt,
-                updatedAt: allPosts.updatedAt,
+                createdAt: formatDate(allPosts.createdAt),
+                updatedAt: formatDate(allPosts.updatedAt),
             };
         });
     };
@@ -32,18 +31,16 @@ class PostsService {
             image: post.postImg,
             content: post.content,
             nickname: post.User.nickname,
-            createdAt: post.createdAt,
-            updatedAt: post.updatedAt,
+            createdAt: formatDate(post.createdAt),
+            updatedAt: formatDate(post.updatedAt),
         };
     };
 
     createPost = async (title, content, userId, image) => {
-        if (image === undefined) {
+        if (!image) {
             image =
                 'https://t3.ftcdn.net/jpg/03/34/83/22/360_F_334832255_IMxvzYRygjd20VlSaIAFZrQWjozQH6BQ.jpg';
-        } else {
         }
-        console.log(image);
         return await this.postsRepository.createPost({
             title,
             content,
@@ -58,6 +55,18 @@ class PostsService {
 
         await this.postsRepository.updatePost(postId, title, content);
     };
+}
+
+function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join('-');
 }
 
 module.exports = PostsService;
