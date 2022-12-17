@@ -8,7 +8,7 @@ class PostsController {
     findAllPosts = async (req, res) => {
         try {
             const posts = await this.postsService.findAllPosts();
-            res.status(400).json({ posts });
+            res.status(200).json({ posts });
         } catch (error) {
             console.log(error);
             res.status(400).json({
@@ -25,7 +25,7 @@ class PostsController {
         } catch (error) {
             console.log(error);
             res.status(400).json({
-                errorMessage: '게시물 조회에 실패하였습니다.',
+                errorMessage: '게시물 상세 조회에 실패하였습니다.',
             });
         }
     };
@@ -41,12 +41,12 @@ class PostsController {
             await this.postsService.createPost(title, content, userId, image);
             return res
                 .status(201)
-                .json({ success: true, message: '생성 성공' });
+                .json({ message: '게시글이 생성되었습니다.' });
         } catch (error) {
             console.log(error);
             return res.status(400).json({
                 success: false,
-                errorMessage: '생성 실패',
+                errorMessage: '게시글 생성에 실패하였습니다.',
             });
         }
     };
@@ -58,12 +58,15 @@ class PostsController {
             await this.postsService.updatePost(postId, title, content);
             return res
                 .status(201)
-                .json({ success: true, message: '수정 성공' });
+                .json({ message: '게시글이 수정되었습니다.' });
         } catch (error) {
-            console.log(error);
+            if ((error.message = '게시글이 존재하지않습니다.')) {
+                return res
+                    .status(404)
+                    .json({ errorMessage: '존재하지않는 게시글입니다.' });
+            }
             res.status(400).json({
-                success: false,
-                errorMessage: '수정 실패',
+                errorMessage: '게시글 수정에 실패하였습니다.',
             });
         }
     };
