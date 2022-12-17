@@ -29,13 +29,16 @@ class PostsRepository {
     };
 
     createPost = async (data) => {
-        console.log(data);
         await Posts.create({
             userId: data.userId,
             title: data.title,
             content: data.content,
             image: null,
         });
+    };
+
+    updatePost = async (postId, title, content) => {
+        await Posts.update({ title, content }, { where: { postId } });
     };
 }
 
