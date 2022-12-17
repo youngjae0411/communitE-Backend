@@ -17,6 +17,19 @@ class PostsController {
         }
     };
 
+    findOnePost = async (req, res) => {
+        try {
+            const { postId } = req.params;
+            const post = await this.postsService.findOnePost(postId);
+            res.status(200).json({ post });
+        } catch (error) {
+            console.log(error);
+            res.status(400).json({
+                errorMessage: '게시물 조회에 실패하였습니다.',
+            });
+        }
+    };
+
     createPost = async (req, res) => {
         try {
             const { title, content } = req.body;
