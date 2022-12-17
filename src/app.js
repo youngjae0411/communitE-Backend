@@ -4,9 +4,11 @@ app.use(express.json());
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 const routes = require('./routes');
+const cors = require('cors');
 
 require('dotenv').config();
 
+app.use(cors());
 app.use('/', routes);
 
 app.listen(process.env.PORT, () => {
