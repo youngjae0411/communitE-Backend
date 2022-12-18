@@ -23,6 +23,7 @@ class PostsService {
 
     findOnePost = async (postId) => {
         const post = await this.postsRepository.findOnePost(postId);
+        if (!post) throw new Error('게시글이 존재하지않습니다.');
 
         return {
             postId: post.postId,
@@ -45,11 +46,12 @@ class PostsService {
         });
     };
 
-    updatePost = async (postId, title, content) => {
+    updatePost = async (postId, title, content, image) => {
+        console.log(image);
         const post = await this.postsRepository.findOnePost(postId);
         if (!post) throw new Error('게시글이 존재하지않습니다.');
 
-        await this.postsRepository.updatePost(postId, title, content);
+        await this.postsRepository.updatePost(postId, title, content, image);
     };
 }
 

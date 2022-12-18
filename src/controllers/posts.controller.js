@@ -24,6 +24,11 @@ class PostsController {
             res.status(200).json({ post });
         } catch (error) {
             console.log(error);
+            if (error.message === '게시글이 존재하지않습니다.') {
+                return res
+                    .status(404)
+                    .json({ errorMessage: '존재하지않는 게시글입니다.' });
+            }
             res.status(400).json({
                 errorMessage: '게시물 상세 조회에 실패하였습니다.',
             });
@@ -32,8 +37,9 @@ class PostsController {
 
     createPost = async (req, res) => {
         try {
-            let image = null;
             const { title, content } = req.body;
+            let image = undefined;
+
             if (req.file) {
                 image = req.file.location;
             } else {
@@ -52,7 +58,6 @@ class PostsController {
         } catch (error) {
             console.log(error);
             return res.status(400).json({
-                success: false,
                 errorMessage: '게시글 생성에 실패하였습니다.',
             });
         }
@@ -62,12 +67,19 @@ class PostsController {
         try {
             const { postId } = req.params;
             const { title, content } = req.body;
-            await this.postsService.updatePost(postId, title, content);
+            let image = undefined;
+
+            if (req.file) {
+                image = req.file.location;
+            }
+
+            await this.postsService.updatePost(postId, title, content, image);
             return res
                 .status(201)
                 .json({ message: '게시글이 수정되었습니다.' });
         } catch (error) {
-            if ((error.message = '게시글이 존재하지않습니다.')) {
+            console.log(error);
+            if (error.message === '게시글이 존재하지않습니다.') {
                 return res
                     .status(404)
                     .json({ errorMessage: '존재하지않는 게시글입니다.' });
