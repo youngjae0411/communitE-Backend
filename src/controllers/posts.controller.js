@@ -32,8 +32,15 @@ class PostsController {
 
     createPost = async (req, res) => {
         try {
+            let image = null;
             const { title, content } = req.body;
-            const image = req.file.location;
+            if (req.file) {
+                image = req.file.location;
+            } else {
+                image =
+                    'https://t3.ftcdn.net/jpg/03/34/83/22/360_F_334832255_IMxvzYRygjd20VlSaIAFZrQWjozQH6BQ.jpg';
+            }
+
             const userId = 1;
             //const { userId } = res.locals.user;
             //아직 User가 없어서 FR키가 안됩니다 DB에 insert로 user를 만들고 하셔야 됩니다.
