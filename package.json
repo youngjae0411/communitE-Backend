@@ -6,7 +6,10 @@
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "start": "node src/app.js",
-        "dev": "nodemon src/app.js"
+        "dev": "nodemon src/app.js",
+        "db:create": "npx sequelize db:create --config ./src/config/config.json",
+        "db:migrate": "npx sequelize db:migrate --config ./src/config/config.json --migrations-path ./src/migrations --models-path ./src/models",
+        "db:drop": "npx sequelize db:drop --config ./src/config/config.json"
     },
     "repository": {
         "type": "git",
@@ -22,6 +25,7 @@
         "aws-sdk": "^2.1277.0",
         "cookie-parser": "^1.4.6",
         "cors": "^2.8.5",
+        "crypto": "^1.0.1",
         "dotenv": "^16.0.3",
         "express": "^4.18.2",
         "install": "^0.13.0",
