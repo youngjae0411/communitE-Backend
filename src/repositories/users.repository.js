@@ -1,3 +1,5 @@
+const { Op } = require('sequelize');
+
 class UserRepository {
     #userModel;
     constructor(UserModel) {
@@ -18,6 +20,14 @@ class UserRepository {
         });
         return findUser;
     };
+    findUserByAuth = async (loginId, password) => {
+        const findUser = await this.#userModel.findOne({
+            where: { [Op.and]: [{ loginId }, { password }] },
+            attributes: { exclude: ['password'] },
+        });
+        return findUser;
+    };
+
     createUser = async (loginId, nickname, password) => {
         const createUser = await this.#userModel.create({
             loginId,
@@ -25,6 +35,13 @@ class UserRepository {
             password,
         });
         return createUser;
+    };
+
+    updateRefreshToken = async (token, loginId) => {
+        await this.#userModel.update(
+            { token },
+            { where: { loginId: loginId } }
+        );
     };
 }
 

@@ -3,7 +3,7 @@ const env = process.env;
 const { createHmac } = require('crypto');
 
 const hash = (password) => {
-    return createHmac('sha256', env.CRYPTO_SECRETE_KEY)
+    return createHmac('sha256', env.CRYPTO_SECRET_KEY)
         .update(password)
         .digest('hex');
 };
