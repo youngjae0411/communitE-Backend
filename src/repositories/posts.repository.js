@@ -44,6 +44,12 @@ class PostsRepository {
             { where: { postId } }
         );
     };
+
+    deletePost = async (postId) => {
+        await Posts.destroy({
+            where: { postId },
+        });
+    };
 }
 
 module.exports = PostsRepository;
