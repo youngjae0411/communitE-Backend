@@ -92,6 +92,24 @@ class PostsController {
             });
         }
     };
+
+    deletePost = async (req, res) => {
+        try {
+            const { postId } = req.params;
+
+            await this.postsService.deletePost(postId);
+            return res.status(200).json({ message: '게시글이 삭제되었습니다' });
+        } catch (error) {
+            if (error.message === '게시글이 존재하지않습니다.') {
+                return res
+                    .status(404)
+                    .json({ errorMessage: '존재하지않는 게시글입니다.' });
+            }
+            res.status(400).json({
+                errorMessage: '게시글 삭제에 실패하였습니다.',
+            });
+        }
+    };
 }
 
 module.exports = PostsController;
