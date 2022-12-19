@@ -43,6 +43,20 @@ class UserRepository {
             { where: { loginId: loginId } }
         );
     };
+    findOneUser = async (userId) => {
+        return this.#userModel.findOne({
+            where: {
+                [Op.or]: [{ userId }],
+            },
+        });
+    };
+
+    updatePost = async (userId, nickname, image) => {
+        return this.#userModel.update(
+            { nickname, profileImg: image },
+            { where: { userId } }
+        );
+    };
 }
 
 module.exports = UserRepository;
