@@ -39,7 +39,6 @@ class PostsRepository {
     };
 
     updatePost = async (postId, title, content, image) => {
-        console.log(image);
         await Posts.update(
             { title, content, postImg: image },
             { where: { postId } }
