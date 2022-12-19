@@ -28,6 +28,20 @@ class PostsRepository {
         });
     };
 
+    findUserPost = async (userId) => {
+        return Posts.findAll({
+            where: {
+                [Op.or]: [{ userId }],
+            },
+            include: [
+                {
+                    model: User,
+                    attributes: ['nickname'],
+                },
+            ],
+        });
+    };
+
     createPost = async (data) => {
         console.log(data);
         await Posts.create({
