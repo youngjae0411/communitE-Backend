@@ -1,8 +1,10 @@
 const PostsRepository = require('../repositories/posts.repository');
+const UserRepository = require('../repositories/user.repository');
 
 class PostsService {
     constructor() {
         this.postsRepository = new PostsRepository();
+        this.userRepository = new UserRepository();
     }
 
     findAllPosts = async () => {
@@ -23,6 +25,7 @@ class PostsService {
 
     findOnePost = async (postId) => {
         const post = await this.postsRepository.findOnePost(postId);
+        if (!post) throw new Error('게시글이 존재하지않습니다.');
 
         return {
             postId: post.postId,
@@ -36,11 +39,26 @@ class PostsService {
         };
     };
 
+    findUserPost = async (userId) => {
+        const user = await this.userRepository.findOneUser(userId);
+        if (!user) throw new Error('존재하지않는 사용자입니다.');
+
+        const userPost = await this.postsRepository.findUserPost(userId);
+
+        return userPost.map((userPost) => {
+            return {
+                postId: userPost.postId,
+                userId: userPost.userId,
+                title: userPost.title,
+                image: userPost.postImg,
+                nickname: userPost.User.nickname,
+                createdAt: formatDate(userPost.createdAt),
+                updatedAt: formatDate(userPost.updatedAt),
+            };
+        });
+    };
+
     createPost = async (title, content, userId, image) => {
-        if (!image) {
-            image =
-                'https://t3.ftcdn.net/jpg/03/34/83/22/360_F_334832255_IMxvzYRygjd20VlSaIAFZrQWjozQH6BQ.jpg';
-        }
         return await this.postsRepository.createPost({
             title,
             content,
@@ -49,11 +67,18 @@ class PostsService {
         });
     };
 
-    updatePost = async (postId, title, content) => {
+    updatePost = async (postId, title, content, image) => {
         const post = await this.postsRepository.findOnePost(postId);
         if (!post) throw new Error('게시글이 존재하지않습니다.');
 
-        await this.postsRepository.updatePost(postId, title, content);
+        await this.postsRepository.updatePost(postId, title, content, image);
+    };
+    deletePost = async (postId) => {
+        const post = await this.postsRepository.findOnePost(postId);
+
+        if (!post) throw new Error('게시글이 존재하지않습니다.');
+
+        await this.postsRepository.deletePost(postId);
     };
 }
 

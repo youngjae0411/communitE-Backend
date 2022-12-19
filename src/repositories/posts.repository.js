@@ -28,6 +28,20 @@ class PostsRepository {
         });
     };
 
+    findUserPost = async (userId) => {
+        return Posts.findAll({
+            where: {
+                [Op.or]: [{ userId }],
+            },
+            include: [
+                {
+                    model: User,
+                    attributes: ['nickname'],
+                },
+            ],
+        });
+    };
+
     createPost = async (data) => {
         console.log(data);
         await Posts.create({
@@ -38,8 +52,17 @@ class PostsRepository {
         });
     };
 
-    updatePost = async (postId, title, content) => {
-        await Posts.update({ title, content }, { where: { postId } });
+    updatePost = async (postId, title, content, image) => {
+        await Posts.update(
+            { title, content, postImg: image },
+            { where: { postId } }
+        );
+    };
+
+    deletePost = async (postId) => {
+        await Posts.destroy({
+            where: { postId },
+        });
     };
 }
 
