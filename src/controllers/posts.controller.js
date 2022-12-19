@@ -71,6 +71,9 @@ class PostsController {
 
             if (req.file) {
                 image = req.file.location;
+            } else if (req.body.image === 'null') {
+                image =
+                    'https://t3.ftcdn.net/jpg/03/34/83/22/360_F_334832255_IMxvzYRygjd20VlSaIAFZrQWjozQH6BQ.jpg';
             }
 
             await this.postsService.updatePost(postId, title, content, image);

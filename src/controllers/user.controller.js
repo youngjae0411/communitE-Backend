@@ -27,8 +27,11 @@ class UserController {
             const { userId } = req.params;
             const { nickname } = req.body;
             let image = undefined;
+
             if (req.file) {
                 image = req.file.location;
+            } else if (req.body.image === 'null') {
+                image = 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
             }
 
             await this.postsService.updateUser(userId, nickname, image);
