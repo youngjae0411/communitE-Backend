@@ -35,6 +35,24 @@ class PostsController {
         }
     };
 
+    findUserPosts = async (req, res) => {
+        try {
+            const { userId } = req.params;
+
+            const posts = await this.postsService.findUserPost(userId);
+            res.status(200).json({ posts });
+        } catch (error) {
+            if (error.message === '존재하지않는 사용자입니다.') {
+                return res
+                    .status(404)
+                    .json({ errorMessage: '존재하지않는 사용자입니다.' });
+            }
+            res.status(400).json({
+                errorMessage: '게시물 조회에 실패하였습니다.',
+            });
+        }
+    };
+
     createPost = async (req, res) => {
         try {
             const { title, content } = req.body;

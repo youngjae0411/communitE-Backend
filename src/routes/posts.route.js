@@ -9,6 +9,8 @@ router.get('/', postsController.findAllPosts);
 
 router.get('/:postId', postsController.findOnePost);
 
+router.get('/user/:userId', postsController.findUserPosts);
+
 router.post('/', upload.single('image'), postsController.createPost);
 
 router.put('/:postId', upload.single('image'), postsController.updatePost);

@@ -1,8 +1,10 @@
 const PostsRepository = require('../repositories/posts.repository');
+const UserRepository = require('../repositories/user.repository');
 
 class PostsService {
     constructor() {
         this.postsRepository = new PostsRepository();
+        this.userRepository = new UserRepository();
     }
 
     findAllPosts = async () => {
@@ -35,6 +37,25 @@ class PostsService {
             createdAt: formatDate(post.createdAt),
             updatedAt: formatDate(post.updatedAt),
         };
+    };
+
+    findUserPost = async (userId) => {
+        const user = await this.userRepository.findOneUser(userId);
+        if (!user) throw new Error('존재하지않는 사용자입니다.');
+
+        const userPost = await this.postsRepository.findUserPost(userId);
+
+        return userPost.map((userPost) => {
+            return {
+                postId: userPost.postId,
+                userId: userPost.userId,
+                title: userPost.title,
+                image: userPost.postImg,
+                nickname: userPost.User.nickname,
+                createdAt: formatDate(userPost.createdAt),
+                updatedAt: formatDate(userPost.updatedAt),
+            };
+        });
     };
 
     createPost = async (title, content, userId, image) => {

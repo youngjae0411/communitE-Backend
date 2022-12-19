@@ -11,7 +11,7 @@ class UserRepository {
     };
 
     updatePost = async (userId, nickname, image) => {
-        return await User.update(
+        return User.update(
             { nickname, profileImg: image },
             { where: { userId } }
         );
