@@ -24,11 +24,15 @@ class UserController {
             const { loginId, password } = req.body;
 
             const tokens = await this.userService.logIn(loginId, password);
+            const { userId } = jwt.verify(
+                tokens.accessToken,
+                env.TOKEN_SECRET_KEY
+            );
 
-            res.cookie(tokens.accessTokenName, `Bearer ${tokens.accessToken}`, {
+            res.header(tokens.accessTokenName, `Bearer ${tokens.accessToken}`, {
                 expires: tokens.cookieExpiration,
             });
-            res.cookie(
+            res.header(
                 tokens.refreshTokenName,
                 `Bearer ${tokens.refreshToken}`,
                 {
@@ -36,8 +40,7 @@ class UserController {
                 }
             );
             res.status(200).json({
-                accessToken: `Bearer[${tokens.accessToken}]`,
-                refreshToken: `Bearer[${tokens.refreshToken}]`,
+                userId: userId,
             });
         } catch (error) {
             console.log(error);

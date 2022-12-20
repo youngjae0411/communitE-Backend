@@ -8,7 +8,6 @@ module.exports = async (req, res, next) => {
     try {
         if (authToken && authType === 'Bearer') {
             const { userId } = jwt.verify(authToken, env.TOKEN_SECRET_KEY);
-            console.log(userId);
             User.findByPk(userId).then((user) => {
                 if (user) {
                     if (user.token === '') {
