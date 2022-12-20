@@ -67,7 +67,7 @@ class UserService {
             throw err;
         }
 
-        const accessToken = createToken(user.userId, '3m');
+        const accessToken = createToken(user.userId, '1h');
         const refreshToken = createToken('refreshToken', '1d');
         await this.userRepository.updateRefreshToken(refreshToken, loginId);
 

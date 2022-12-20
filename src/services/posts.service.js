@@ -1,10 +1,11 @@
 const PostsRepository = require('../repositories/posts.repository');
 const UserRepository = require('../repositories/users.repository');
+const { User } = require('../models');
 
 class PostsService {
     constructor() {
         this.postsRepository = new PostsRepository();
-        this.userRepository = new UserRepository();
+        this.userRepository = new UserRepository(User);
     }
 
     findAllPosts = async () => {
@@ -67,12 +68,14 @@ class PostsService {
         });
     };
 
-    updatePost = async (postId, title, content, image) => {
+    updatePost = async (postId, title, content, userId, image) => {
         const post = await this.postsRepository.findOnePost(postId);
         if (!post) throw new Error('게시글이 존재하지않습니다.');
+        if (post.userId !== userId) throw new Error('권한이 없습니다.');
 
         await this.postsRepository.updatePost(postId, title, content, image);
     };
+
     deletePost = async (postId) => {
         const post = await this.postsRepository.findOnePost(postId);
 
