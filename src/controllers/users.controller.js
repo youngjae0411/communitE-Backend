@@ -32,9 +32,10 @@ class UserController {
             const accessToken = `Bearer ${tokens.accessToken}`;
             const refreshToken = `Bearer ${tokens.refreshToken}`;
 
+            const Authorization = { accessToken, refreshToken };
+
             res.header({
-                accessToken: accessToken,
-                refreshToken: refreshToken,
+                Authorization,
             });
             res.status(200).json({
                 userId: userId,
