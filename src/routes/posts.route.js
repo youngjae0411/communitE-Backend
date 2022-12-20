@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const upload = require('../modules/postImg');
-const authUserMiddleware = require('../middlewares/auth-User.middleware.js');
+const authUserMiddleware = require('../middleWares/auth-User.middleware.js');
 
 const PostsController = require('../controllers/posts.controller');
 const postsController = new PostsController();

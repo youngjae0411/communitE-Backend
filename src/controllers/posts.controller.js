@@ -47,6 +47,7 @@ class PostsController {
                     .status(404)
                     .json({ errorMessage: '존재하지않는 사용자입니다.' });
             }
+            console.log(error);
             res.status(400).json({
                 errorMessage: '게시물 조회에 실패하였습니다.',
             });
@@ -56,8 +57,7 @@ class PostsController {
     createPost = async (req, res) => {
         try {
             const { title, content } = req.body;
-            let image = undefined;
-            const user = res.locals.user;
+            const { userId } = res.locals.user;
 
             if (req.file) {
                 image = req.file.location;
@@ -65,10 +65,6 @@ class PostsController {
                 image =
                     'https://t3.ftcdn.net/jpg/03/34/83/22/360_F_334832255_IMxvzYRygjd20VlSaIAFZrQWjozQH6BQ.jpg';
             }
-
-            const userId = user.userId;
-            //const { userId } = res.locals.user;
-            //아직 User가 없어서 FR키가 안됩니다 DB에 insert로 user를 만들고 하셔야 됩니다.
 
             await this.postsService.createPost(title, content, userId, image);
             return res
@@ -86,6 +82,7 @@ class PostsController {
         try {
             const { postId } = req.params;
             const { title, content } = req.body;
+            const { userId } = res.locals.user;
             let image = undefined;
 
             if (req.file) {
@@ -95,7 +92,13 @@ class PostsController {
                     'https://t3.ftcdn.net/jpg/03/34/83/22/360_F_334832255_IMxvzYRygjd20VlSaIAFZrQWjozQH6BQ.jpg';
             }
 
-            await this.postsService.updatePost(postId, title, content, image);
+            await this.postsService.updatePost(
+                postId,
+                title,
+                content,
+                userId,
+                image
+            );
             return res
                 .status(201)
                 .json({ message: '게시글이 수정되었습니다.' });
@@ -105,6 +108,11 @@ class PostsController {
                 return res
                     .status(404)
                     .json({ errorMessage: '존재하지않는 게시글입니다.' });
+            }
+            if (error.message === '권한이 없습니다.') {
+                return res
+                    .status(404)
+                    .json({ errorMessage: '권한이 없습니다.' });
             }
             res.status(400).json({
                 errorMessage: '게시글 수정에 실패하였습니다.',

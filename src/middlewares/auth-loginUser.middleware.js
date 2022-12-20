@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const env = process.env;
 module.exports = async (req, res, next) => {
     const authorization = req.headers.authorization;
-    const [authType, authToken] = (authorization || '').split('%');
+    const [authType, authToken] = (authorization || '').split(' ');
     console.log(authToken);
     try {
         if (authToken && authType === 'Bearer') {
