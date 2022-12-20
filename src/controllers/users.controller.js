@@ -29,13 +29,13 @@ class UserController {
                 tokens.accessToken,
                 env.TOKEN_SECRET_KEY
             );
-            const accessToken = `Bearer ${tokens.accessToken}`;
-            const refreshToken = `Bearer ${tokens.refreshToken}`;
 
-            const Authorization = { accessToken, refreshToken };
+            console.log(tokens.accessToken);
+            console.log(tokens.refreshToken);
 
             res.header({
-                Authorization,
+                accessToken: `Bearer ${tokens.accessToken}`,
+                refreshToken: `Bearer ${tokens.refreshToken}`,
             });
             res.status(200).json({
                 userId: userId,

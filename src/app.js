@@ -8,7 +8,7 @@ const cors = require('cors');
 
 require('dotenv').config();
 
-app.use(cors({ exposedHeaders: ['Authorization'] }));
+app.use(cors({ exposedHeaders: ['accessToken', 'refreshToken'] }));
 app.use('/', routes);
 
 app.listen(process.env.PORT, () => {
