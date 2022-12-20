@@ -57,6 +57,7 @@ class PostsController {
         try {
             const { title, content } = req.body;
             let image = undefined;
+            const user = res.locals.user;
 
             if (req.file) {
                 image = req.file.location;
@@ -65,7 +66,7 @@ class PostsController {
                     'https://t3.ftcdn.net/jpg/03/34/83/22/360_F_334832255_IMxvzYRygjd20VlSaIAFZrQWjozQH6BQ.jpg';
             }
 
-            const userId = 1;
+            const userId = user.userId;
             //const { userId } = res.locals.user;
             //아직 User가 없어서 FR키가 안됩니다 DB에 insert로 user를 만들고 하셔야 됩니다.
 
