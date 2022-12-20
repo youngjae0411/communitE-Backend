@@ -68,6 +68,7 @@ class UserController {
     updateUser = async (req, res) => {
         try {
             const { userId } = req.params;
+            const { tokenUserId } = res.locals.user.userId;
             const { nickname } = req.body;
             let image = undefined;
 
@@ -77,16 +78,26 @@ class UserController {
                 image = 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
             }
 
-            await this.userService.updateUser(userId, nickname, image);
+            await this.userService.updateUser(
+                userId,
+                nickname,
+                tokenUserId,
+                image
+            );
             return res
                 .status(201)
                 .json({ message: '사용자 정보가 수정되었습니다.' });
         } catch (error) {
             console.log(error);
-            if ((error.message = '존재하지않는 사용자입니다.')) {
+            if (error.message === '존재하지않는 사용자입니다.') {
                 return res
                     .status(404)
                     .json({ errorMessage: '존재하지않는 사용자입니다.' });
+            }
+            if (error.message === '권한이 없습니다.') {
+                return res
+                    .status(401)
+                    .json({ errorMessage: '권한이 없습니다.' });
             }
             res.status(400).json({
                 errorMessage: '사용자 정보 수정에 실패하였습니다.',

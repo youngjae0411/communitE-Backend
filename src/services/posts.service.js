@@ -76,10 +76,11 @@ class PostsService {
         await this.postsRepository.updatePost(postId, title, content, image);
     };
 
-    deletePost = async (postId) => {
+    deletePost = async (postId, userId) => {
         const post = await this.postsRepository.findOnePost(postId);
 
         if (!post) throw new Error('게시글이 존재하지않습니다.');
+        if (post.userId !== userId) throw new Error('권한이 없습니다.');
 
         await this.postsRepository.deletePost(postId);
     };
