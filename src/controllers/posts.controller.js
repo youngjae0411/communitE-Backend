@@ -59,6 +59,7 @@ class PostsController {
             const { title, content } = req.body;
             const { userId } = res.locals.user;
 
+            let image = undefined;
             if (req.file) {
                 image = req.file.location;
             } else {
