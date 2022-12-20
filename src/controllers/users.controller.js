@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const UserService = require('../services/users.service');
 require('dotenv').config();
+const env = process.env;
 
 class UserController {
     userService = new UserService();
@@ -28,17 +29,13 @@ class UserController {
                 tokens.accessToken,
                 env.TOKEN_SECRET_KEY
             );
+            const accessToken = `Bearer ${tokens.accessToken}`;
+            const refreshToken = `Bearer ${tokens.refreshToken}`;
 
-            res.header(tokens.accessTokenName, `Bearer ${tokens.accessToken}`, {
-                expires: tokens.cookieExpiration,
+            res.header({
+                accessToken: accessToken,
+                refreshToken: refreshToken,
             });
-            res.header(
-                tokens.refreshTokenName,
-                `Bearer ${tokens.refreshToken}`,
-                {
-                    expires: tokens.cookieExpiration,
-                }
-            );
             res.status(200).json({
                 userId: userId,
             });
