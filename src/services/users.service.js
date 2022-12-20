@@ -94,10 +94,10 @@ class UserService {
             };
     };
 
-    updateUser = async (userId, nickname, image) => {
+    updateUser = async (userId, nickname, tokenUserId, image) => {
         const user = await this.userRepository.findOneUser(userId);
         if (!user) throw new Error('존재하지않는 사용자입니다.');
-
+        if (user.userId !== tokenUserId) throw new Error('권한이 없습니다.');
         await this.userRepository.updatePost(userId, nickname, image);
     };
 }
