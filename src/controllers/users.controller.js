@@ -68,7 +68,9 @@ class UserController {
     updateUser = async (req, res) => {
         try {
             const { userId } = req.params;
-            const { tokenUserId } = res.locals.user.userId;
+
+            const tokenUserId = res.locals.user.userId;
+            console.log(tokenUserId);
             const { nickname } = req.body;
             let image = undefined;
 

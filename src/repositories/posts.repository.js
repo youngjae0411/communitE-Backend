@@ -1,9 +1,13 @@
-const { Posts, User } = require('../models');
+const { User } = require('../models');
 const { Op } = require('sequelize');
 
 class PostsRepository {
+    constructor(postsModel) {
+        this.posts = postsModel;
+    }
+
     findAllPosts = async () => {
-        return Posts.findAll({
+        return this.posts.findAll({
             include: [
                 {
                     model: User,
@@ -15,7 +19,7 @@ class PostsRepository {
     };
 
     findOnePost = async (postId) => {
-        return Posts.findOne({
+        return this.posts.findOne({
             where: {
                 [Op.or]: [{ postId }],
             },
@@ -29,7 +33,7 @@ class PostsRepository {
     };
 
     findUserPost = async (userId) => {
-        return Posts.findAll({
+        return this.posts.findAll({
             where: {
                 [Op.or]: [{ userId }],
             },
@@ -43,8 +47,7 @@ class PostsRepository {
     };
 
     createPost = async (data) => {
-        console.log(data);
-        await Posts.create({
+        await this.posts.create({
             userId: data.userId,
             title: data.title,
             content: data.content,
@@ -53,14 +56,14 @@ class PostsRepository {
     };
 
     updatePost = async (postId, title, content, image) => {
-        await Posts.update(
+        await this.posts.update(
             { title, content, postImg: image },
             { where: { postId } }
         );
     };
 
     deletePost = async (postId) => {
-        await Posts.destroy({
+        await this.posts.destroy({
             where: { postId },
         });
     };

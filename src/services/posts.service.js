@@ -1,10 +1,10 @@
 const PostsRepository = require('../repositories/posts.repository');
 const UserRepository = require('../repositories/users.repository');
-const { User } = require('../models');
+const { User, Posts } = require('../models/index.js');
 
 class PostsService {
     constructor() {
-        this.postsRepository = new PostsRepository();
+        this.postsRepository = new PostsRepository(Posts);
         this.userRepository = new UserRepository(User);
     }
 
