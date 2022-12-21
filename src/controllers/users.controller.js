@@ -9,7 +9,13 @@ class UserController {
     signUp = async (req, res, next) => {
         try {
             const { loginId, nickname, password } = req.body;
-            await this.userService.signUp(loginId, nickname, password);
+            console.log(req.body);
+            const result = await this.userService.signUp(
+                loginId,
+                nickname,
+                password
+            );
+            console.log(result);
 
             res.status(201).json({ message: '회원가입에 성공하였습니다.' });
         } catch (error) {
@@ -22,12 +28,13 @@ class UserController {
 
     logIn = async (req, res, next) => {
         try {
+            console.log('들어았다아아');
             const { loginId, password } = req.body;
 
             const tokens = await this.userService.logIn(loginId, password);
             const { userId } = jwt.verify(
                 tokens.accessToken,
-                env.TOKEN_SECRET_KEY
+                env.TOKEN_SECRETE_KEY
             );
 
             console.log(tokens.accessToken);
@@ -69,7 +76,7 @@ class UserController {
         try {
             const { userId } = req.params;
 
-            const tokenUserId = res.locals.user.userId;
+            const tokenUserId = res.locals;
             console.log(tokenUserId);
             const { nickname } = req.body;
             let image = undefined;
@@ -104,6 +111,24 @@ class UserController {
             res.status(400).json({
                 errorMessage: '사용자 정보 수정에 실패하였습니다.',
             });
+        }
+    };
+
+    findDupId = async (req, res) => {
+        const { text } = req.params;
+        try {
+            const message = await this.userService.findDupLoginId(text);
+            res.status(200).json({ message: message });
+        } catch (error) {
+            if (error.message === '중복된 아이디입니다.') {
+                res.status(error.status).json({ errorMessage: error.message });
+            } else if (error.message === '중복된 닉네임입니다.') {
+                res.status(error.status).json({ errorMessage: error.message });
+            } else {
+                res.status(400).json({
+                    errorMessage: '아이디 검사에 실패하였습니다.',
+                });
+            }
         }
     };
 }

@@ -9,7 +9,7 @@ class CommentsController {
         try {
             const { content } = req.body;
             const postId = Number(req.params.postId);
-            const { userId } = res.locals.user;
+            const { userId } = res.locals;
 
             const comment = await this.commentsService.createComment(
                 postId,
@@ -53,7 +53,7 @@ class CommentsController {
         try {
             const { commentId } = req.params;
             const { content } = req.body;
-            const { userId } = res.locals.user;
+            const { userId } = res.locals;
 
             await this.commentsService.updateComment(
                 commentId,
@@ -81,7 +81,7 @@ class CommentsController {
     deleteComment = async (req, res) => {
         try {
             const { commentId } = req.params;
-            const { userId } = res.locals.user;
+            const { userId } = res.locals;
 
             await this.commentsService.deleteComment(commentId, userId);
 

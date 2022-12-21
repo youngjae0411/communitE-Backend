@@ -7,14 +7,13 @@ const authUserMiddleware = require('../middlewares/auth-User.middleware');
 const upload = require('../modules/userImg');
 
 router.post('/signup', authLoginUserMiddleware, usersController.signUp);
-router.post('/login', authLoginUserMiddleware, usersController.logIn);
-//router.get('/signup/:loginId', usersController.findDupId);
 router.get('/:userId', usersController.findOneUser);
+router.get('/signup/:text', usersController.findDupId);
+router.post('/login', authLoginUserMiddleware, usersController.logIn);
 router.put(
     '/:userId',
     authUserMiddleware,
     upload.single('image'),
     usersController.updateUser
 );
-
 module.exports = router;
