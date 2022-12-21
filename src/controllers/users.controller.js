@@ -6,7 +6,7 @@ const env = process.env;
 class UserController {
     userService = new UserService();
 
-    signUp = async (req, res, next) => {
+    signUp = async (req, res) => {
         try {
             const { loginId, nickname, password } = req.body;
             console.log(req.body);
@@ -26,7 +26,7 @@ class UserController {
         }
     };
 
-    logIn = async (req, res, next) => {
+    logIn = async (req, res) => {
         try {
             console.log('들어았다아아');
             const { loginId, password } = req.body;
@@ -76,7 +76,7 @@ class UserController {
         try {
             const { userId } = req.params;
 
-            const tokenUserId = res.locals;
+            const tokenUserId = res.locals.userId;
             console.log(tokenUserId);
             const { nickname } = req.body;
             let image = undefined;
