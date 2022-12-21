@@ -1,15 +1,22 @@
 const { User } = require('../models');
 const jwt = require('jsonwebtoken');
 const env = process.env;
+
+const validateToken = function (tokenValue) {
+    try {
+        jwt.verify(tokenValue, env.TOKEN_SECRETE_KEY);
+        return true;
+    } catch (error) {
+        return false;
+    }
+};
+
 module.exports = async (req, res, next) => {
     const accessToken = req.headers.access;
     const [accessTokenType, accessTokenValue] = (accessToken || '').split(' ');
 
     try {
-        if (
-            accessToken &&
-            jwt.verify(accessTokenValue, env.TOKEN_SECRETE_KEY)
-        ) {
+        if (accessToken && validateToken(accessToken)) {
             const error = new Error('Already Logined');
             error.status = 401;
             error.message = '이미 로그인 되어있습니다.';

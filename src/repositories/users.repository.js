@@ -43,6 +43,7 @@ class UserRepository {
             nickname,
             password,
         });
+        console.log(createUser);
         return createUser;
     };
 

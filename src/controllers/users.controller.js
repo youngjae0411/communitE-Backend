@@ -9,7 +9,13 @@ class UserController {
     signUp = async (req, res, next) => {
         try {
             const { loginId, nickname, password } = req.body;
-            await this.userService.signUp(loginId, nickname, password);
+            console.log(req.body);
+            const result = await this.userService.signUp(
+                loginId,
+                nickname,
+                password
+            );
+            console.log(result);
 
             res.status(201).json({ message: '회원가입에 성공하였습니다.' });
         } catch (error) {
@@ -22,6 +28,7 @@ class UserController {
 
     logIn = async (req, res, next) => {
         try {
+            console.log('들어았다아아');
             const { loginId, password } = req.body;
 
             const tokens = await this.userService.logIn(loginId, password);
@@ -69,7 +76,7 @@ class UserController {
         try {
             const { userId } = req.params;
 
-            const tokenUserId = res.locals.userId;
+            const tokenUserId = res.locals;
             console.log(tokenUserId);
             const { nickname } = req.body;
             let image = undefined;
