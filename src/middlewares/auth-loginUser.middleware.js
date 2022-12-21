@@ -6,7 +6,10 @@ module.exports = async (req, res, next) => {
     const [accessTokenType, accessTokenValue] = (accessToken || '').split(' ');
 
     try {
-        if (accessToken && jwt.verify(accessTokenValue, env.TOKEN_SECRET_KEY)) {
+        if (
+            accessToken &&
+            jwt.verify(accessTokenValue, env.TOKEN_SECRETE_KEY)
+        ) {
             const error = new Error('Already Logined');
             error.status = 401;
             error.message = '이미 로그인 되어있습니다.';
