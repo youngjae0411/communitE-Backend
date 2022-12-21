@@ -20,15 +20,14 @@ class UserController {
             res.status(201).json({ message: '회원가입에 성공하였습니다.' });
         } catch (error) {
             console.log(error);
-            res.status(error.status).json({
-                errorMessage: error.message,
+            res.status(400).json({
+                errorMessage: '회원가입에 실패하였습니다.',
             });
         }
     };
 
     logIn = async (req, res) => {
         try {
-            console.log('들어았다아아');
             const { loginId, password } = req.body;
 
             const tokens = await this.userService.logIn(loginId, password);
@@ -49,9 +48,15 @@ class UserController {
             });
         } catch (error) {
             console.log(error);
-            res.status(error.status).json({
-                errorMessage: error.message,
-            });
+            if (error.message === '아이디 또는 패스워드가 일치하지 않습니다.') {
+                res.status(error.status).json({
+                    errorMessage: error.message,
+                });
+            } else {
+                res.status(400).json({
+                    errorMessage: '로그인에 실패하였습니다.',
+                });
+            }
         }
     };
     findOneUser = async (req, res) => {
