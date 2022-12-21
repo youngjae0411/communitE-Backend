@@ -64,7 +64,7 @@ class PostsController {
                 image = req.file.location;
             } else {
                 image =
-                    'https://t3.ftcdn.net/jpg/03/34/83/22/360_F_334832255_IMxvzYRygjd20VlSaIAFZrQWjozQH6BQ.jpg';
+                    'https://communite.s3.ap-northeast-2.amazonaws.com/postImg/Noimage.jpg';
             }
 
             await this.postsService.createPost(title, content, userId, image);
@@ -90,7 +90,7 @@ class PostsController {
                 image = req.file.location;
             } else if (req.body.image === 'null') {
                 image =
-                    'https://t3.ftcdn.net/jpg/03/34/83/22/360_F_334832255_IMxvzYRygjd20VlSaIAFZrQWjozQH6BQ.jpg';
+                    'https://communite.s3.ap-northeast-2.amazonaws.com/postImg/Noimage.jpg';
             }
 
             await this.postsService.updatePost(
