@@ -106,6 +106,24 @@ class UserController {
             });
         }
     };
+
+    findDupId = async (req, res) => {
+        const { text } = req.params;
+        try {
+            const message = await this.userService.findDupLoginId(text);
+            res.status(200).json({ message: message });
+        } catch (error) {
+            if (error.message === '중복된 아이디입니다.') {
+                res.status(error.status).json({ errorMessage: error.message });
+            } else if (error.message === '중복된 닉네임입니다.') {
+                res.status(error.status).json({ errorMessage: error.message });
+            } else {
+                res.status(400).json({
+                    errorMessage: '아이디 검사에 실패하였습니다.',
+                });
+            }
+        }
+    };
 }
 
 module.exports = UserController;

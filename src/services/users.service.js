@@ -100,6 +100,25 @@ class UserService {
         if (user.userId !== tokenUserId) throw new Error('권한이 없습니다.');
         await this.userRepository.updatePost(userId, nickname, image);
     };
+
+    findDupLoginId = async (text) => {
+        const findDupId = await this.userRepository.findUserByLoginIdOrNick(
+            text
+        );
+        if (findDupId && findDupId.loginId === text) {
+            const error = new Error('Same LoginId exists');
+            error.status = 412;
+            error.message = '중복된 아이디입니다.';
+            throw error;
+        } else if (findDupId && findDupId.nickname === text) {
+            const error = new Error('Same Nickname exists');
+            error.status = 412;
+            error.message = '중복된 닉네임입니다.';
+            throw error;
+        } else {
+            return '사용 가능한 아이디입니다.';
+        }
+    };
 }
 function formatDate(date) {
     var d = new Date(date),

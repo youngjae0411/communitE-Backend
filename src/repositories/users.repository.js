@@ -6,6 +6,15 @@ class UserRepository {
         this.#userModel = UserModel;
     }
 
+    findUserByLoginIdOrNick = async (text) => {
+        const findUser = await this.#userModel.findOne({
+            where: {
+                [Op.or]: [{ loginId: text }, { nickname: text }],
+            },
+        });
+        return findUser;
+    };
+
     findUserByLoginId = async (loginId) => {
         const findUser = await this.#userModel.findOne({
             where: { loginId },
