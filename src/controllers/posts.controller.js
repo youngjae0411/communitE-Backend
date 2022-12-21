@@ -57,7 +57,7 @@ class PostsController {
     createPost = async (req, res) => {
         try {
             const { title, content } = req.body;
-            const { userId } = res.locals.user;
+            const { userId } = res.locals.userId;
 
             let image = undefined;
             if (req.file) {
@@ -83,7 +83,7 @@ class PostsController {
         try {
             const { postId } = req.params;
             const { title, content } = req.body;
-            const { userId } = res.locals.user;
+            const { userId } = res.locals.userId;
             let image = undefined;
 
             if (req.file) {
@@ -124,7 +124,7 @@ class PostsController {
     deletePost = async (req, res) => {
         try {
             const { postId } = req.params;
-            const { userId } = res.locals.user;
+            const { userId } = res.locals.userId;
 
             await this.postsService.deletePost(postId, userId);
             return res.status(200).json({ message: '게시글이 삭제되었습니다' });

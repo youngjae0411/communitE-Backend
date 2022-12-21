@@ -27,7 +27,7 @@ class UserController {
             const tokens = await this.userService.logIn(loginId, password);
             const { userId } = jwt.verify(
                 tokens.accessToken,
-                env.TOKEN_SECRET_KEY
+                env.TOKEN_SECRETE_KEY
             );
 
             console.log(tokens.accessToken);
@@ -69,7 +69,7 @@ class UserController {
         try {
             const { userId } = req.params;
 
-            const tokenUserId = res.locals.user.userId;
+            const tokenUserId = res.locals.userId;
             console.log(tokenUserId);
             const { nickname } = req.body;
             let image = undefined;
