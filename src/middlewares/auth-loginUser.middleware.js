@@ -28,9 +28,7 @@ module.exports = async (req, res, next) => {
             return res
                 .status(error.status)
                 .json({ errorMessage: error.message });
-        }
-        if (error.message === 'invalid token') {
-            console.log('invalid token');
+        } else {
             res.status(400).json({ errorMessage: '로그인에 실패하였습니다.' });
         }
     }

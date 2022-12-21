@@ -21,7 +21,6 @@ class UserService {
             nickname,
             hashValue
         );
-        console.log('UserService');
         return user;
     };
 

@@ -47,7 +47,6 @@ module.exports = async (req, res, next) => {
                 error.message = '존재하지 않는 사용자입니다.';
                 throw error;
             }
-            console.log(user.dataValues.userId);
             const newAccessToken = createToken(user.dataValues.userId, '1h');
             console.log(`새로발급받은 액세스: ${newAccessToken}`);
             res.header({ accessToken: `Bearer ${newAccessToken}` });
@@ -55,7 +54,6 @@ module.exports = async (req, res, next) => {
             res.locals.userId = user.dataValues.userId;
             return next();
         }
-        console.log('액세스토큰도 리프레시도 ㄱㅊ 인증됨!');
         const { userId } = jwt.verify(accessTokenValue, env.TOKEN_SECRETE_KEY);
         res.locals.userId = userId;
         next();
