@@ -15,6 +15,7 @@ const validateToken = function (tokenValue) {
 module.exports = async (req, res, next) => {
     const accessToken = req.headers.access;
     const refreshToken = req.headers.refresh;
+    console.log(accessToken, refreshToken);
 
     if (!accessToken || !refreshToken) {
         res.status(401).json({
