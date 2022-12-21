@@ -26,14 +26,14 @@ module.exports = {
                 type: Sequelize.DataTypes.STRING,
                 allowNull: false,
             },
+            postImg: {
+                type: Sequelize.STRING,
+                allowNull: true,
+            },
             createdAt: {
                 allowNull: false,
                 type: Sequelize.DataTypes.DATE,
                 defaultValue: Sequelize.DataTypes.NOW,
-            },
-            postImg: {
-                type: Sequelize.BLOB,
-                allowNull: true,
             },
             updatedAt: {
                 allowNull: false,

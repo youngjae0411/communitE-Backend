@@ -29,7 +29,7 @@ module.exports = {
                 allowNull: false,
             },
             profileImg: {
-                type: Sequelize.BLOB,
+                type: Sequelize.STRING,
                 allowNull: true,
             },
             createdAt: {

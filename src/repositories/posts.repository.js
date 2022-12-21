@@ -1,9 +1,13 @@
-const { Posts, User } = require('../models');
+const { User } = require('../models');
 const { Op } = require('sequelize');
 
 class PostsRepository {
+    constructor(postsModel) {
+        this.posts = postsModel;
+    }
+
     findAllPosts = async () => {
-        return Posts.findAll({
+        return this.posts.findAll({
             include: [
                 {
                     model: User,
@@ -15,7 +19,7 @@ class PostsRepository {
     };
 
     findOnePost = async (postId) => {
-        return Posts.findOne({
+        return this.posts.findOne({
             where: {
                 [Op.or]: [{ postId }],
             },
@@ -28,17 +32,40 @@ class PostsRepository {
         });
     };
 
-    createPost = async (data) => {
-        await Posts.create({
-            userId: data.userId,
-            title: data.title,
-            content: data.content,
-            image: null,
+    findUserPost = async (userId) => {
+        return this.posts.findAll({
+            where: {
+                [Op.or]: [{ userId }],
+            },
+            include: [
+                {
+                    model: User,
+                    attributes: ['nickname'],
+                },
+            ],
         });
     };
 
-    updatePost = async (postId, title, content) => {
-        await Posts.update({ title, content }, { where: { postId } });
+    createPost = async (data) => {
+        await this.posts.create({
+            userId: data.userId,
+            title: data.title,
+            content: data.content,
+            postImg: data.image,
+        });
+    };
+
+    updatePost = async (postId, title, content, image) => {
+        await this.posts.update(
+            { title, content, postImg: image },
+            { where: { postId } }
+        );
+    };
+
+    deletePost = async (postId) => {
+        await this.posts.destroy({
+            where: { postId },
+        });
     };
 }
 
