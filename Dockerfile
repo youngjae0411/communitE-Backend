@@ -1,4 +1,4 @@
-FROM --platform=linux/amd64 node:16-alpine
+FROM --platform=linux/arm64 node:16-alpine
 
 # 앱 디렉터리 생성
 WORKDIR / 
