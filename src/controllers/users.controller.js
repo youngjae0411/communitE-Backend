@@ -49,7 +49,7 @@ class UserController {
         } catch (error) {
             console.log(error);
             if (error.message === '아이디 또는 패스워드가 일치하지 않습니다.') {
-                res.status(error.status).json({
+                res.status(400).json({
                     errorMessage: error.message,
                 });
             } else {
