@@ -28,7 +28,7 @@ module.exports = {
                 allowNull: false,
             },
             content: {
-                type: Sequelize.DataTypes.STRING,
+                type: Sequelize.DataTypes.STRING(5000),
                 allowNull: false,
             },
             createdAt: {

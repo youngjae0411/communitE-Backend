@@ -1,7 +1,7 @@
 'use strict';
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-    class Comments extends Model {
+    class Posts extends Model {
         /**
          * Helper method for defining associations.
          * This method is not a part of Sequelize lifecycle.
@@ -9,30 +9,22 @@ module.exports = (sequelize, DataTypes) => {
          */
         static associate(models) {
             // define association here
-            this.belongsTo(models.Posts, {
-                foreignKey: 'postId',
-            });
             this.belongsTo(models.User, {
                 foreignKey: 'userId',
             });
+            this.hasMany(models.Comments, {
+                as: 'Comments',
+                foreignKey: 'postId',
+            });
         }
     }
-    Comments.init(
+    Posts.init(
         {
-            commentId: {
+            postId: {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
                 type: DataTypes.INTEGER,
-            },
-            postId: {
-                type: DataTypes.INTEGER,
-                references: {
-                    model: 'Posts',
-                    key: 'postId',
-                },
-                onDelete: 'CASCADE',
-                allowNull: false,
             },
             userId: {
                 type: DataTypes.INTEGER,
@@ -43,9 +35,17 @@ module.exports = (sequelize, DataTypes) => {
                 onDelete: 'CASCADE',
                 allowNull: false,
             },
-            content: {
+            title: {
                 type: DataTypes.STRING,
                 allowNull: false,
+            },
+            content: {
+                type: DataTypes.STRING(5000),
+                allowNull: false,
+            },
+            postImg: {
+                type: DataTypes.STRING,
+                allowNull: true,
             },
             createdAt: {
                 allowNull: false,
@@ -60,8 +60,8 @@ module.exports = (sequelize, DataTypes) => {
         },
         {
             sequelize,
-            modelName: 'Comments',
+            modelName: 'Posts',
         }
     );
-    return Comments;
+    return Posts;
 };

@@ -1,5 +1,5 @@
 const UserRepository = require('../repositories/users.repository.js');
-const { User } = require('../models');
+const { User } = require('../../models');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 //const CHECK_PASSWORD = /^[a-zA-Z0-9]{4,30}$/;

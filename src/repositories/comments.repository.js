@@ -1,5 +1,5 @@
 const { Op } = require('sequelize');
-const { User } = require('../models');
+const { User } = require('../../models');
 
 class CommentRepository {
     constructor(commentsModel) {

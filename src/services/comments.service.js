@@ -1,6 +1,6 @@
 const CommentsRepository = require('../repositories/comments.repository');
 const PostsRepository = require('../repositories/posts.repository');
-const { Comments, Posts } = require('../models/index');
+const { Comments, Posts } = require('../../models/index');
 
 class CommentService {
     constructor() {
