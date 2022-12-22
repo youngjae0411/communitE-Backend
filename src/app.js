@@ -16,5 +16,5 @@ app.listen(process.env.PORT, () => {
 });
 
 app.get('/', (req, res) => {
-    res.send('CI/CD Success');
+    res.send('CI/CD Success check2');
 });
