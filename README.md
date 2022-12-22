@@ -1,5 +1,7 @@
 # communitE-Backend
 
+#현재 AWS 모든 관련된 내용은 삭제된 상태이기에 기능이 정상적으로 작동하지않습니다.
+
 E반에, E반에 의한, E반을 위한 E반 전용 커뮤티니 사이트 communitE-Backend 입니다!
 
 </br>
