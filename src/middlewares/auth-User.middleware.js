@@ -1,4 +1,4 @@
-const { User } = require('../../models');
+const { User } = require('../models');
 const jwt = require('jsonwebtoken');
 const { createToken } = require('../util/auth-jwtToken.util');
 const env = process.env;
