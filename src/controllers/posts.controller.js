@@ -10,7 +10,6 @@ class PostsController {
             const posts = await this.postsService.findAllPosts();
             res.status(200).json({ posts });
         } catch (error) {
-            console.log(error);
             res.status(400).json({
                 errorMessage: '게시글 조회에 실패하였습니다.',
             });
@@ -23,7 +22,6 @@ class PostsController {
             const post = await this.postsService.findOnePost(postId);
             res.status(200).json({ post });
         } catch (error) {
-            console.log(error);
             if (error.message === '게시글이 존재하지않습니다.') {
                 return res
                     .status(404)
@@ -47,7 +45,6 @@ class PostsController {
                     .status(404)
                     .json({ errorMessage: '존재하지않는 사용자입니다.' });
             }
-            console.log(error);
             res.status(400).json({
                 errorMessage: '게시물 조회에 실패하였습니다.',
             });
@@ -72,7 +69,6 @@ class PostsController {
                 .status(201)
                 .json({ message: '게시글이 생성되었습니다.' });
         } catch (error) {
-            console.log(error);
             return res.status(400).json({
                 errorMessage: '게시글 생성에 실패하였습니다.',
             });
@@ -104,7 +100,6 @@ class PostsController {
                 .status(201)
                 .json({ message: '게시글이 수정되었습니다.' });
         } catch (error) {
-            console.log(error);
             if (error.message === '게시글이 존재하지않습니다.') {
                 return res
                     .status(404)

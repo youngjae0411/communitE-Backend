@@ -15,7 +15,6 @@ const validateToken = function (tokenValue) {
 module.exports = async (req, res, next) => {
     const accessToken = req.headers.access;
     const refreshToken = req.headers.refresh;
-    console.log(accessToken, refreshToken);
 
     if (!accessToken || !refreshToken) {
         res.status(401).json({
@@ -31,9 +30,7 @@ module.exports = async (req, res, next) => {
 
     try {
         if (!validateToken(accessTokenValue)) {
-            console.log('일단 엑세스 토큰 만료!');
             if (!validateToken(refreshTokenValue)) {
-                console.log('리프레쉬토큰도 만료!');
                 const error = new Error('RefreshToken Expired');
                 error.status = 419;
                 error.message = 'Token이 만료되었습니다. 다시 로그인해주세요.';
@@ -49,7 +46,6 @@ module.exports = async (req, res, next) => {
                 throw error;
             }
             const newAccessToken = createToken(user.dataValues.userId, '1h');
-            console.log(`새로발급받은 액세스: ${newAccessToken}`);
             res.header({ accessToken: `Bearer ${newAccessToken}` });
 
             res.locals.userId = user.dataValues.userId;
@@ -62,7 +58,6 @@ module.exports = async (req, res, next) => {
         if (error.message === 'Token이 만료되었습니다. 다시 로그인해주세요.') {
             res.status(error.status).json({ errorMessage: error.message });
         } else {
-            console.log(error);
             res.status(400).json({
                 errorMessage: '로그인이 필요한 기능입니다.',
             });

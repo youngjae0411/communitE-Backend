@@ -2,8 +2,7 @@ const UserRepository = require('../repositories/users.repository.js');
 const { User } = require('../models');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
-//const CHECK_PASSWORD = /^[a-zA-Z0-9]{4,30}$/;
-//const CHECK_LOGINID = /^[a-zA-Z0-9]{3,10}$/;
+
 const hash = require('../util/auth-encryption.util.js');
 const {
     createToken,
@@ -30,7 +29,6 @@ class UserService {
             loginId,
             hashValue
         );
-        console.log(user);
         if (!user) {
             const err = new Error(`UserService Error`);
             err.status = 412;
@@ -90,17 +88,6 @@ class UserService {
             return '사용 가능한 아이디입니다.';
         }
     };
-}
-function formatDate(date) {
-    var d = new Date(date),
-        month = '' + (d.getMonth() + 1),
-        day = '' + d.getDate(),
-        year = d.getFullYear();
-
-    if (month.length < 2) month = '0' + month;
-    if (day.length < 2) day = '0' + day;
-
-    return [year, month, day].join('-');
 }
 
 module.exports = UserService;

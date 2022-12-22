@@ -15,11 +15,9 @@ class UserController {
                 nickname,
                 password
             );
-            console.log(result);
 
             res.status(201).json({ message: '회원가입에 성공하였습니다.' });
         } catch (error) {
-            console.log(error);
             res.status(400).json({
                 errorMessage: '회원가입에 실패하였습니다.',
             });
@@ -36,9 +34,6 @@ class UserController {
                 env.TOKEN_SECRETE_KEY
             );
 
-            console.log(tokens.accessToken);
-            console.log(tokens.refreshToken);
-
             res.header({
                 accessToken: `Bearer ${tokens.accessToken}`,
                 refreshToken: `Bearer ${tokens.refreshToken}`,
@@ -47,7 +42,6 @@ class UserController {
                 userId: userId,
             });
         } catch (error) {
-            console.log(error);
             if (error.message === '아이디 또는 패스워드가 일치하지 않습니다.') {
                 res.status(400).json({
                     errorMessage: error.message,
@@ -70,7 +64,6 @@ class UserController {
                     errorMessage: '존재하지않는 사용자입니다.',
                 });
             }
-            console.log(error);
             res.status(400).json({
                 errorMessage: '사용자정보 불러오기에 실패하였습니다.',
             });
@@ -82,7 +75,6 @@ class UserController {
             const { userId } = req.params;
 
             const tokenUserId = res.locals.userId;
-            console.log(tokenUserId);
             const { nickname } = req.body;
             let image = undefined;
 
@@ -102,7 +94,6 @@ class UserController {
                 .status(201)
                 .json({ message: '사용자 정보가 수정되었습니다.' });
         } catch (error) {
-            console.log(error);
             if (error.message === '존재하지않는 사용자입니다.') {
                 return res
                     .status(404)
