@@ -40,7 +40,7 @@ module.exports = (sequelize, DataTypes) => {
                 allowNull: false,
             },
             content: {
-                type: DataTypes.STRING,
+                type: DataTypes.STRING(5000),
                 allowNull: false,
             },
             postImg: {
