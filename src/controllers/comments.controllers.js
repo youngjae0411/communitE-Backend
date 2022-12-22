@@ -38,7 +38,6 @@ class CommentsController {
 
             res.status(200).json({ comments });
         } catch (error) {
-            console.log(error);
             if (error.message === '게시글이 존재하지않습니다.') {
                 return res
                     .status(404)
